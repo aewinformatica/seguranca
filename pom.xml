@@ -5,7 +5,7 @@
 
 	<groupId>com.aewinformatica</groupId>
 	<artifactId>seguranca</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>seguranca</name>
@@ -14,7 +14,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.5.7.RELEASE</version>
+		<version>1.4.3.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
@@ -25,13 +25,10 @@
 		
 		<!-- Thymeleaf pois o spring boot atual usa a 2.1-->
 		<thymeleaf.version>3.0.1.RELEASE</thymeleaf.version>
-		
 		<!-- Thymeleaf - Layout Dialect -->
 		<thymeleaf-layout-dialect.version>2.0.1</thymeleaf-layout-dialect.version>
-		
 		<!-- Thymeleaf - Extras Spring Security exibição do usuario-->
 		<thymeleaf-extras-springsecurity4.version>3.0.0.RELEASE</thymeleaf-extras-springsecurity4.version>
-		
 		<!-- Thymeleaf extras data attribute -->
 		<thymeleaf-extras-data-attribute.version>2.0.1</thymeleaf-extras-data-attribute.version>
 		
@@ -43,10 +40,7 @@
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 		
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.flywaydb</groupId> -->
-<!-- 			<artifactId>flyway-core</artifactId> -->
-<!-- 		</dependency> -->
+
 		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -87,6 +81,11 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -97,6 +96,43 @@
 			</plugin>
 		</plugins>
 	</build>
+	
+<!-- 	<repositories> -->
+<!--         <repository> -->
+<!--             <id>spring-snapshots</id> -->
+<!--             <name>Spring Snapshots</name> -->
+<!--             <url>https://repo.spring.io/snapshot</url> -->
+<!--             <snapshots> -->
+<!--                 <enabled>true</enabled> -->
+<!--             </snapshots> -->
+<!--         </repository> -->
+<!--         <repository> -->
+<!--             <id>spring-milestones</id> -->
+<!--             <name>Spring Milestones</name> -->
+<!--             <url>https://repo.spring.io/milestone</url> -->
+<!--             <snapshots> -->
+<!--                 <enabled>false</enabled> -->
+<!--             </snapshots> -->
+<!--         </repository> -->
+<!--     </repositories> -->
 
+<!--     <pluginRepositories> -->
+<!--         <pluginRepository> -->
+<!--             <id>spring-snapshots</id> -->
+<!--             <name>Spring Snapshots</name> -->
+<!--             <url>https://repo.spring.io/snapshot</url> -->
+<!--             <snapshots> -->
+<!--                 <enabled>true</enabled> -->
+<!--             </snapshots> -->
+<!--         </pluginRepository> -->
+<!--         <pluginRepository> -->
+<!--             <id>spring-milestones</id> -->
+<!--             <name>Spring Milestones</name> -->
+<!--             <url>https://repo.spring.io/milestone</url> -->
+<!--             <snapshots> -->
+<!--                 <enabled>false</enabled> -->
+<!--             </snapshots> -->
+<!--         </pluginRepository> -->
+<!--     </pluginRepositories> -->
 
 </project>
