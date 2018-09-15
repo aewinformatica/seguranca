@@ -11,6 +11,7 @@ public class DashboardController {
 	public ModelAndView home(){
 		
 		ModelAndView mv = new ModelAndView("Dashboard");
+//		ModelAndView mv = new ModelAndView("layout/LayoutPadrao");
 		return mv;
 	}
 }
