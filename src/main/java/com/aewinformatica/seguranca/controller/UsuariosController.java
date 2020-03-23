@@ -1,5 +1,7 @@
 package com.aewinformatica.seguranca.controller;
 
+import java.util.Optional;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -89,9 +91,12 @@ public class UsuariosController {
 	
 	@GetMapping("/{codigo}")
 	public ModelAndView editar(@PathVariable Long codigo) {
-		Usuario usuario = usuarios.buscarComGrupos(codigo);
-		ModelAndView mv = novo(usuario);
-		mv.addObject(usuario);
+//		Usuario usuario = usuarios.buscarComGrupos(codigo);
+//		ModelAndView mv = novo(usuario);
+		
+		Optional<Usuario> usuarioOptional = usuarios.buscarComGrupos(codigo);
+		ModelAndView mv = novo(usuarioOptional.get());
+		mv.addObject(usuarioOptional.get());
 		return mv;
 	}
 

@@ -4,8 +4,11 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import org.springframework.stereotype.Component;
+
 @Entity
 @Table(name = "usuario_grupo")
+@Component
 public class UsuarioGrupo {
 
 	@EmbeddedId

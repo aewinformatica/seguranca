@@ -15,12 +15,13 @@ import javax.persistence.ManyToMany;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.transaction.annotation.Transactional;
 
 @Entity
 @Table(name = "usuario")
@@ -28,43 +29,40 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class Usuario implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
-	
-	@NotBlank(message="Nome é Obrigatorio")
+
+	@NotBlank(message = "Nome é Obrigatorio")
 	private String nome;
-	
-	@NotBlank(message="E-mail Obrigatorio")
-	@Email(message="E-mail Inválido")
+
+	@NotBlank(message = "E-mail Obrigatorio")
+	@Email(message = "E-mail Inválido")
 	private String email;
-	
+
 	private String senha;
-	
+
 	@Transient
 	private String confirmacaoSenha;
-	
+
 	@NotNull
 	private Boolean ativo;
-	
-	@NotNull(message="selecione pelo menos um grupo")
+
+	@NotNull(message = "selecione pelo menos um grupo")
 	@ManyToMany
-	@JoinTable(name="usuario_grupo",
-	 joinColumns=@JoinColumn(name="codigo_usuario"),
-	 inverseJoinColumns= @JoinColumn(name="codigo_grupo")
-	)
+	@JoinTable(name = "usuario_grupo", joinColumns = @JoinColumn(name = "codigo_usuario"), inverseJoinColumns = @JoinColumn(name = "codigo_grupo"))
 	private List<Grupo> grupos;
-	
+
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@Column(name = "data_nascimento")
 	private LocalDate dataNascimento;
-	
+
 	@PreUpdate
 	private void preUpdate() {
 		this.confirmacaoSenha = senha;
 	}
-	
+
 	public Long getCodigo() {
 		return codigo;
 	}
@@ -120,7 +118,7 @@ public class Usuario implements Serializable {
 	public void setDataNascimento(LocalDate dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
-	
+
 	public String getConfirmacaoSenha() {
 		return confirmacaoSenha;
 	}
@@ -128,7 +126,7 @@ public class Usuario implements Serializable {
 	public void setConfirmacaoSenha(String confirmacaoSenha) {
 		this.confirmacaoSenha = confirmacaoSenha;
 	}
-	
+
 	public boolean isNovo() {
 		return codigo == null;
 	}
@@ -157,9 +155,5 @@ public class Usuario implements Serializable {
 			return false;
 		return true;
 	}
-
-
-	
-	
 
 }
