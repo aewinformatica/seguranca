@@ -15,7 +15,10 @@ import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -138,10 +141,9 @@ public class UsuariosImpl implements UsuariosQueries {
 	@Transactional(readOnly = true)
 	@Override
 
-	public Optional<Usuario> buscarComGrupos(Long codigo) {
+	public Usuario buscarComGrupos(Long codigo) {
 
-		Optional<Usuario> usuario = null;
-
+		Usuario usuarioEncontrado = null;
 		// construtor
 		CriteriaBuilder builder = manager.getCriteriaBuilder();
 		// retornar uma query para Usuario
@@ -161,20 +163,21 @@ public class UsuariosImpl implements UsuariosQueries {
 		try {
 
 			TypedQuery<Usuario> query = manager.createQuery(criteria);
-			usuario = Optional.of(query.getSingleResult());
+			usuarioEncontrado = query.getSingleResult();
 		} catch (NoResultException e) {
 
 			e = new NoResultException("Usuario nao encontrado ");
 			System.out.println(e.getMessage() + codigo);
 		}
 
-		return usuario;
+		return usuarioEncontrado;
 
-//		Criteria criteria = manager.unwrap(Session.class).createCriteria(Usuario.class);
-//		criteria.createAlias("grupos", "g", JoinType.LEFT_OUTER_JOIN);
-//		criteria.add(Restrictions.eq("codigo", codigo));
-//		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-//		return (Usuario) criteria.uniqueResult();
+
+		/*Criteria criteria = manager.unwrap(Session.class).createCriteria(Usuario.class);
+		criteria.createAlias("grupos", "g", org.hibernate.sql.JoinType.LEFT_OUTER_JOIN);
+		criteria.add(Restrictions.eq("codigo", codigo));
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);		
+		return (Usuario) criteria.uniqueResult();*/
 	}
 
 	private Long total(UsuarioFilter filtro) {
