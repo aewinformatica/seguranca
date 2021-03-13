@@ -12,6 +12,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -212,50 +213,24 @@ public class UsuariosImpl implements UsuariosQueries {
 			if (!StringUtils.isEmpty(filtro.getEmail())) {
 				predicates.add(builder.like(builder.lower(root.get("email")),"%" + filtro.getEmail().toLowerCase()));
 			}
-			
-			
+						
 			if (filtro.getGrupos() != null && !filtro.getGrupos().isEmpty()) {
-				/*
-				// construindo os criterios da pesquisa
-			  	CriteriaQuery<UsuarioGrupo> criteria = builder.createQuery(UsuarioGrupo.class);
-				Root<UsuarioGrupo> rootFromUsuarioGrupo = criteria.from(UsuarioGrupo.class);
+				
+				List<Long> listaCodigosGrupos = new ArrayList<>();
 
 				for (Long codigoGrupo : filtro.getGrupos().stream().mapToLong(Grupo::getCodigo).toArray()) {
-					predicates.add(builder.equal(rootFromUsuarioGrupo.get("UsuarioGrupoId"), codigoGrupo));
-					System.out.println(">>CODIGO DO GRUPO" + codigoGrupo);
-					
+				listaCodigosGrupos.add(codigoGrupo);
 				}
-				*/
+				// construindo os criterios da pesquisa
+				Join<Usuario, Grupo> join = root.join(Usuario_.grupos);
+				Path<Long>pathCodigoGrupo = join.get("codigo");
+				Predicate predGrupos = builder.isTrue(pathCodigoGrupo.in(listaCodigosGrupos));
+				
+				predicates.add(predGrupos);
 			}
 			
 		}
 		return predicates.toArray(new Predicate[predicates.size()]);
 	}
 	
-	private void adicionarFiltro(UsuarioFilter filtro, Criteria criteria) {
-		if (filtro != null) {
-			if (!StringUtils.isEmpty(filtro.getNome())) {
-				criteria.add(Restrictions.ilike("nome", filtro.getNome(), MatchMode.ANYWHERE));
-			}
-			
-			if (!StringUtils.isEmpty(filtro.getEmail())) {
-				criteria.add(Restrictions.ilike("email", filtro.getEmail(), MatchMode.START));
-			}
-			
-			if (filtro.getGrupos() != null && !filtro.getGrupos().isEmpty()) {
-				List<Criterion> subqueries = new ArrayList<>();
-				for (Long codigoGrupo : filtro.getGrupos().stream().mapToLong(Grupo::getCodigo).toArray()) {
-					DetachedCriteria dc = DetachedCriteria.forClass(UsuarioGrupo.class);
-					dc.add(Restrictions.eq("id.grupo.codigo", codigoGrupo));
-					dc.setProjection(Projections.property("id.usuario"));
-					
-					subqueries.add(Subqueries.propertyIn("codigo", dc));
-				}
-				
-				Criterion[] criterions = new Criterion[subqueries.size()];
-				criteria.add(Restrictions.and(subqueries.toArray(criterions)));
-			}
-		}
-	}
-
 }
